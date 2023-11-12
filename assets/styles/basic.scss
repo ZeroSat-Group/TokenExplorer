@@ -1,0 +1,88 @@
+html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+body {
+  margin: 0;
+  height: 100%;
+  padding: 0;
+  position: relative;
+  text-rendering: optimizeSpeed;
+  background-color: $background;
+  overflow-y: scroll;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen-Sans, Ubuntu, Cantarell, 'Helvetica Neue', sans-serif;
+}
+
+:root {
+  --sbtauth-height: 200px;
+  --sbtauth-width: 300px;
+  --sbtauth-padding: 20px;
+  --sbtauth-primary: #6e28fa;
+  --sbtauth-border-radius: 0px;
+  --sbtauth-bubble-left: calc(100% - 100px);
+  --sbtauth-bubble-bottom: 20px;
+}
+
+#__nuxt,
+#__layout {
+  width: 100%;
+  height: 100%;
+}
+* {
+  box-sizing: border-box;
+}
+// 移除触摸 color
+@include phone() {
+  button,
+  div,
+  a {
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    -webkit-tap-highlight-color: transparent;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: $primary;
+  text-decoration: none;
+}
+
+p {
+  margin: 0;
+}
+
+.n-data-table-filter-menu .n-data-table-filter-menu__action {
+  border-color: rgba(255, 255, 255, 0.08);
+  .n-button__content {
+    color: #fff;
+  }
+}
+
+/// Popup menu in pagiantion.
+.n-base-select-menu .n-base-select-option {
+  color: white;
+}
+
+/// Popup menu in pagiantion.
+.n-base-select-menu
+  .n-base-select-option.n-base-select-option--pending::before {
+  background-color: #fca121;
+}
+
+.stop-scrolling {
+  height: 100%;
+  overflow: hidden;
+}

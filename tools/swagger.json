@@ -1,0 +1,3155 @@
+{
+  "swagger": "2.0",
+  "info": { "title": " ordinals-sync-backend", "version": "last" },
+  "basePath": "/",
+  "tags": [
+    { "name": "Token 详情", "description": null },
+    { "name": "用户代币余额" },
+    { "name": "操作历史", "description": null },
+    { "name": "订单" },
+    { "name": "订单明细" },
+    { "name": "售卖" },
+    { "name": "白名单" },
+    { "name": "投票", "description": null }
+  ],
+  "schemes": ["http"],
+  "paths": {
+    "/orc20/token-infos": {
+      "get": {
+        "tags": ["Token 详情"],
+        "summary": "分页查询 Token 详情",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          },
+          {
+            "name": "ticker",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "inscription",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "complete",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "inscription_number,deploy_times,progress,holders,transactions,",
+            "type": "string"
+          },
+          {
+            "name": "deployer",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "upgradeable",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "tokenId",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "description": "返回数据",
+                        "required": [
+                          "tokenInfoInscriptionNumberEnd",
+                          "tokenInfoName",
+                          "tokenInfoCompleteBlockTime",
+                          "tokenInfoID",
+                          "tokenInfoTokenDecimal",
+                          "tokenInfoSatoshi",
+                          "tokenInfoTxIdx",
+                          "tokenInfoCompleteHeight",
+                          "tokenInfoVout",
+                          "tokenInfoTotalMinted",
+                          "tokenInfoLimitNumber",
+                          "tokenInfoInscriptionID",
+                          "tokenInfoCreateIdxKey",
+                          "tokenInfoTxId",
+                          "tokenInfoTicker",
+                          "tokenInfoMaxNumber",
+                          "tokenInfoPkScript",
+                          "tokenInfoInscriptionNumber",
+                          "tokenInfoDeployTimes",
+                          "tokenInfoDeployer",
+                          "tokenInfoDeployHeight",
+                          "tokenInfoHolders",
+                          "tokenInfoTransactions",
+                          "tokenInfoUpgradable",
+                          "tokenInfoProgress",
+                          "tokenInfoOrc20Id",
+                          "tokenInfoProtocol",
+                          "tokenInfoSyncHeight"
+                        ],
+                        "properties": {
+                          "tokenInfoInscriptionNumberEnd": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情上链时间",
+                            "mock": { "mock": "1234" }
+                          },
+                          "tokenInfoName": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情名称",
+                            "mock": { "mock": "orc" }
+                          },
+                          "tokenInfoCompleteBlockTime": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情完成高度完成时间",
+                            "mock": { "mock": "@timestamp" }
+                          },
+                          "tokenInfoID": {
+                            "type": "integer",
+                            "description": "Brc20 Token 详情ID",
+                            "mock": { "mock": "1" }
+                          },
+                          "tokenInfoTokenDecimal": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情小数位",
+                            "mock": { "mock": "18" }
+                          },
+                          "tokenInfoSatoshi": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情satoshi"
+                          },
+                          "tokenInfoTxIdx": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情txIdx"
+                          },
+                          "tokenInfoCompleteHeight": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情完成高度",
+                            "mock": { "mock": "213124" }
+                          },
+                          "tokenInfoVout": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情vout",
+                            "mock": { "mock": "0" }
+                          },
+                          "tokenInfoTotalMinted": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情mint总量",
+                            "mock": { "mock": "1000" }
+                          },
+                          "tokenInfoLimitNumber": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情限制数",
+                            "mock": { "mock": "1000" }
+                          },
+                          "tokenInfoInscriptionID": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情铭文id",
+                            "mock": { "mock": "124314" }
+                          },
+                          "tokenInfoCreateIdxKey": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情createIdxKey"
+                          },
+                          "tokenInfoTxId": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情交易hash"
+                          },
+                          "tokenInfoTicker": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情ticker",
+                            "mock": { "mock": "orc" }
+                          },
+                          "tokenInfoMaxNumber": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情最大数",
+                            "mock": { "mock": "442334234" }
+                          },
+                          "tokenInfoPkScript": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情pkScript"
+                          },
+                          "tokenInfoInscriptionNumber": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情铭文number",
+                            "mock": { "mock": "234243" }
+                          },
+                          "tokenInfoDeployTimes": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情部署时间",
+                            "mock": { "mock": "@timestamp" }
+                          },
+                          "tokenInfoDeployer": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情部署人",
+                            "mock": { "mock": "0x213123231" }
+                          },
+                          "tokenInfoDeployHeight": {
+                            "type": "string",
+                            "description": "Brc20 Token 详情部署高度",
+                            "mock": { "mock": "4324234" }
+                          },
+                          "tokenInfoHolders": {
+                            "type": "string",
+                            "mock": { "mock": "3213" }
+                          },
+                          "tokenInfoTransactions": {
+                            "type": "string",
+                            "mock": { "mock": "32131" }
+                          },
+                          "tokenInfoUpgradable": {
+                            "type": "boolean",
+                            "mock": { "mock": "true" }
+                          },
+                          "tokenInfoProgress": { "type": "string" },
+                          "tokenInfoOrc20Id": { "type": "string" },
+                          "tokenInfoProtocol": { "type": "string" },
+                          "tokenInfoSyncHeight": { "type": "string" }
+                        }
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/user-token-balances": {
+      "get": {
+        "tags": ["用户代币余额"],
+        "summary": "分页查询用户代币余额",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "query",
+            "required": false,
+            "description": "筛选条件",
+            "type": "string"
+          },
+          {
+            "name": "inscriptionNumber",
+            "in": "query",
+            "required": false,
+            "description": "筛选条件",
+            "type": "string"
+          },
+          {
+            "name": "isDeployer",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "holder",
+            "in": "query",
+            "required": false,
+            "description": "true:查询不为0的余额",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "userTokenBalanceBalance": {
+                            "type": "string",
+                            "description": "用户代币余额总余额",
+                            "mock": { "mock": "10" }
+                          },
+                          "userTokenBalanceTicker": {
+                            "type": "string",
+                            "description": "用户代币余额ticker",
+                            "mock": { "mock": "orc" }
+                          },
+                          "userTokenBalanceTransferableBalance": {
+                            "type": "string",
+                            "description": "用户代币余额可转账余额",
+                            "mock": { "mock": "10" }
+                          },
+                          "userTokenBalanceAvailable": {
+                            "type": "string",
+                            "description": "用户代币余额可用余额",
+                            "mock": { "mock": "1" }
+                          },
+                          "userTokenBalanceAddress": {
+                            "type": "string",
+                            "description": "用户代币余额地址",
+                            "mock": { "mock": "0xadsafasfasfaf" }
+                          },
+                          "userTokenBalanceOrc20ID": {
+                            "type": "string",
+                            "description": "orc20id",
+                            "mock": { "mock": "1" }
+                          },
+                          "userTokenBalanceInscriptionNumber": {
+                            "type": "string",
+                            "mock": { "mock": "4324234" }
+                          },
+                          "userTokenBalanceLockCredits": { "type": "string" }
+                        },
+                        "required": [
+                          "userTokenBalanceBalance",
+                          "userTokenBalanceTicker",
+                          "userTokenBalanceTransferableBalance",
+                          "userTokenBalanceAvailable",
+                          "userTokenBalanceAddress",
+                          "userTokenBalanceOrc20ID",
+                          "userTokenBalanceInscriptionNumber",
+                          "userTokenBalanceLockCredits"
+                        ]
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/operation-histories": {
+      "get": {
+        "tags": ["操作历史"],
+        "summary": "分页查询操作历史",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "description": "0:非法 1:合法 2:未生效",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "method",
+            "in": "query",
+            "required": false,
+            "description": "inscribe-deploy\ninscribe-mint,\ninscribe-cancel\ninscribe-send\ninscribe-upgrade,\ninscribe-remaining-balance\nupgrade\ntransfer(receive)\nsend\n\n不传查所有",
+            "type": "string"
+          },
+          {
+            "name": "inscriptionNumber",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "operationHistoryNumber": {
+                            "type": "string",
+                            "description": "交易历史铭文Number",
+                            "mock": { "mock": "3527921" }
+                          },
+                          "operationHistoryFromAddress": {
+                            "type": "string",
+                            "description": "交易历史fromAddress",
+                            "mock": { "mock": "0x0" }
+                          },
+                          "operationHistoryHeight": {
+                            "type": "string",
+                            "description": "交易历史高度",
+                            "mock": { "mock": "788119" }
+                          },
+                          "operationHistoryToAddress": {
+                            "type": "string",
+                            "description": "交易历史toAddress",
+                            "mock": {
+                              "mock": "bc1ppsfg0mu5rnu9naelp6cnuy72rz8u9dey38fm3mvpyqlqn9dmjufs46audv"
+                            }
+                          },
+                          "operationHistoryInscriptionID": {
+                            "type": "string",
+                            "description": "交易历史铭文id",
+                            "mock": {
+                              "mock": "eabd88b71724f950c82b0a2e48d81931f44d034868d59dc876935b406de5a980i0"
+                            }
+                          },
+                          "operationHistoryType": {
+                            "type": "string",
+                            "description": "交易历史类型",
+                            "mock": { "mock": "inscribe-deploy" }
+                          },
+                          "operationHistoryTicker": {
+                            "type": "string",
+                            "description": "交易历史Ticker",
+                            "mock": { "mock": "binance" }
+                          },
+                          "operationHistoryAmount": {
+                            "type": "string",
+                            "description": "交易历史数量"
+                          },
+                          "operationHistoryTxHash": {
+                            "type": "string",
+                            "description": "交易历史交易hash"
+                          },
+                          "operationHistoryPkScriptFrom": {
+                            "type": "string",
+                            "description": "交易历史pkScriptFrom"
+                          },
+                          "operationHistorySatoshi": {
+                            "type": "string",
+                            "description": "交易历史satoshi"
+                          },
+                          "operationHistoryPkScriptTo": {
+                            "type": "string",
+                            "description": "交易历史pkScriptTo"
+                          },
+                          "operationHistoryVout": {
+                            "type": "string",
+                            "description": "交易历史Vout"
+                          },
+                          "operationHistoryBlockTime": {
+                            "type": "string",
+                            "description": "交易历史块时间",
+                            "mock": { "mock": "@timestamp" }
+                          },
+                          "operationHistoryCreateIdxKey": {
+                            "type": "string",
+                            "description": "交易历史CreateIdxKey"
+                          },
+                          "operationHistoryStatus": { "type": "string" },
+                          "operationHistoryErrorMsg": { "type": "string" }
+                        }
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/holder-inscribes": {
+      "get": {
+        "tags": ["操作历史"],
+        "summary": "分页查询用户持有铭文",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          },
+          {
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "inscriptionNumber",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "operationHistoryNumber": {
+                            "type": "string",
+                            "description": "交易历史铭文Number",
+                            "mock": { "mock": "3527921" }
+                          },
+                          "operationHistoryFromAddress": {
+                            "type": "string",
+                            "description": "交易历史fromAddress",
+                            "mock": { "mock": "0x0" }
+                          },
+                          "operationHistoryHeight": {
+                            "type": "string",
+                            "description": "交易历史高度",
+                            "mock": { "mock": "788119" }
+                          },
+                          "operationHistoryToAddress": {
+                            "type": "string",
+                            "description": "交易历史toAddress",
+                            "mock": {
+                              "mock": "bc1ppsfg0mu5rnu9naelp6cnuy72rz8u9dey38fm3mvpyqlqn9dmjufs46audv"
+                            }
+                          },
+                          "operationHistoryInscriptionID": {
+                            "type": "string",
+                            "description": "交易历史铭文id",
+                            "mock": {
+                              "mock": "eabd88b71724f950c82b0a2e48d81931f44d034868d59dc876935b406de5a980i0"
+                            }
+                          },
+                          "operationHistoryType": {
+                            "type": "string",
+                            "description": "交易历史类型",
+                            "mock": { "mock": "inscribe-deploy" }
+                          },
+                          "operationHistoryTicker": {
+                            "type": "string",
+                            "description": "交易历史Ticker",
+                            "mock": { "mock": "binance" }
+                          },
+                          "operationHistoryAmount": {
+                            "type": "string",
+                            "description": "交易历史数量"
+                          },
+                          "operationHistoryTxHash": {
+                            "type": "string",
+                            "description": "交易历史交易hash"
+                          },
+                          "operationHistoryPkScriptFrom": {
+                            "type": "string",
+                            "description": "交易历史pkScriptFrom"
+                          },
+                          "operationHistorySatoshi": {
+                            "type": "string",
+                            "description": "交易历史satoshi"
+                          },
+                          "operationHistoryPkScriptTo": {
+                            "type": "string",
+                            "description": "交易历史pkScriptTo"
+                          },
+                          "operationHistoryVout": {
+                            "type": "string",
+                            "description": "交易历史Vout"
+                          },
+                          "operationHistoryBlockTime": {
+                            "type": "string",
+                            "description": "交易历史块时间",
+                            "mock": { "mock": "@timestamp" }
+                          },
+                          "operationHistoryCreateIdxKey": {
+                            "type": "string",
+                            "description": "交易历史CreateIdxKey"
+                          },
+                          "operationHistoryStatus": { "type": "string" },
+                          "operationHistoryErrorMsg": { "type": "string" }
+                        }
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/operation-history": {
+      "get": {
+        "tags": ["操作历史"],
+        "summary": "单记录查询操作历史",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "transfersHistoryID",
+            "in": "query",
+            "required": true,
+            "description": "交易历史ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "transfersHistoryNumber",
+                    "transfersHistoryName",
+                    "transfersHistoryFromAddress",
+                    "transfersHistoryHeight",
+                    "transfersHistoryToAddress",
+                    "transfersHistoryInscriptionID",
+                    "transfersHistoryType",
+                    "transfersHistoryTicker",
+                    "transfersHistoryAmount",
+                    "transfersHistoryTxHash",
+                    "transfersHistoryPkScriptFrom",
+                    "transfersHistorySatoshi",
+                    "transfersHistoryPkScriptTo",
+                    "transfersHistoryVout",
+                    "transfersHistoryBlockTime",
+                    "transfersHistoryCreateIdxKey",
+                    "transfersHistoryValid",
+                    "transfersHistoryID",
+                    "transfersHistoryUsed"
+                  ],
+                  "properties": {
+                    "transfersHistoryNumber": {
+                      "type": "string",
+                      "description": "交易历史铭文Number"
+                    },
+                    "transfersHistoryName": {
+                      "type": "string",
+                      "description": "交易历史名称"
+                    },
+                    "transfersHistoryFromAddress": {
+                      "type": "string",
+                      "description": "交易历史fromAddress"
+                    },
+                    "transfersHistoryHeight": {
+                      "type": "string",
+                      "description": "交易历史高度"
+                    },
+                    "transfersHistoryToAddress": {
+                      "type": "string",
+                      "description": "交易历史toAddress"
+                    },
+                    "transfersHistoryInscriptionID": {
+                      "type": "string",
+                      "description": "交易历史铭文id"
+                    },
+                    "transfersHistoryType": {
+                      "type": "string",
+                      "description": "交易历史类型"
+                    },
+                    "transfersHistoryTicker": {
+                      "type": "string",
+                      "description": "交易历史Ticker"
+                    },
+                    "transfersHistoryAmount": {
+                      "type": "string",
+                      "description": "交易历史数量"
+                    },
+                    "transfersHistoryTxHash": {
+                      "type": "string",
+                      "description": "交易历史交易hash"
+                    },
+                    "transfersHistoryPkScriptFrom": {
+                      "type": "string",
+                      "description": "交易历史pkScriptFrom"
+                    },
+                    "transfersHistorySatoshi": {
+                      "type": "string",
+                      "description": "交易历史satoshi"
+                    },
+                    "transfersHistoryPkScriptTo": {
+                      "type": "string",
+                      "description": "交易历史pkScriptTo"
+                    },
+                    "transfersHistoryVout": {
+                      "type": "string",
+                      "description": "交易历史Vout"
+                    },
+                    "transfersHistoryBlockTime": {
+                      "type": "string",
+                      "description": "交易历史块时间"
+                    },
+                    "transfersHistoryCreateIdxKey": {
+                      "type": "string",
+                      "description": "交易历史CreateIdxKey"
+                    },
+                    "transfersHistoryValid": {
+                      "type": "string",
+                      "description": "交易历史是否合法"
+                    },
+                    "transfersHistoryID": {
+                      "type": "integer",
+                      "description": "交易历史ID"
+                    },
+                    "transfersHistoryUsed": {
+                      "type": "string",
+                      "description": "交易历史是否使用"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/file:order": {
+      "post": {
+        "tags": ["订单"],
+        "summary": "创建文件订单",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "description": "请求参数",
+            "schema": {
+              "type": "object",
+              "description": "请求参数",
+              "required": [
+                "receiveAddress",
+                "feeRate",
+                "files",
+                "satsInInscription",
+                "totalAmount"
+              ],
+              "properties": {
+                "receiveAddress": {
+                  "type": "string",
+                  "description": "收铭文地址",
+                  "mock": {
+                    "mock": "bc1q7lwkvs497g84yrljye294nzmkp8lx0dkgm94pu"
+                  }
+                },
+                "feeRate": {
+                  "type": "string",
+                  "description": "费率",
+                  "mock": { "mock": "12" }
+                },
+                "files": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {},
+                    "description": "MultipartFile"
+                  }
+                },
+                "satsInInscription": {
+                  "type": "string",
+                  "mock": { "mock": "546" }
+                },
+                "totalAmount": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "orderID": { "type": "string" },
+                    "orderOrderNo": { "type": "string" },
+                    "orderPayAddress": { "type": "string" }
+                  },
+                  "description": "返回数据",
+                  "required": ["orderID", "orderPayAddress", "orderOrderNo"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/order": {
+      "post": {
+        "tags": ["订单"],
+        "summary": "创建订单",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "description": "请求参数",
+            "schema": {
+              "type": "object",
+              "description": "请求参数",
+              "required": [
+                "receiveAddress",
+                "feeRate",
+                "contentList",
+                "satsInInscription",
+                "totalAmount"
+              ],
+              "properties": {
+                "receiveAddress": {
+                  "type": "string",
+                  "description": "收铭文地址",
+                  "mock": {
+                    "mock": "bc1q7lwkvs497g84yrljye294nzmkp8lx0dkgm94pu"
+                  }
+                },
+                "feeRate": {
+                  "type": "string",
+                  "description": "费率",
+                  "mock": { "mock": "12" }
+                },
+                "contentList": {
+                  "type": "number",
+                  "mock": {
+                    "mock": "{\"p\":\"brc-20\",\"op\":\"mint\",\"tick\":\"osha\",\"amt\":\"1\"},{\"p\":\"brc-20\",\"op\":\"mint\",\"tick\":\"osha\",\"amt\":\"1\"}"
+                  }
+                },
+                "satsInInscription": {
+                  "type": "string",
+                  "mock": { "mock": "546" }
+                },
+                "totalAmount": { "type": "string" }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "orderID": { "type": "string" },
+                    "orderOrderNo": { "type": "string" },
+                    "orderPayAddress": { "type": "string" }
+                  },
+                  "description": "返回数据",
+                  "required": ["orderID", "orderPayAddress", "orderOrderNo"]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/inscribe-ranking-list": {
+      "get": {
+        "tags": ["订单"],
+        "summary": "排行榜",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "days",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "sort",
+            "in": "query",
+            "required": false,
+            "description": "total_fee,row_num",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "address": {
+                            "type": "string",
+                            "description": "订单明细内容"
+                          },
+                          "amount": {
+                            "type": "string",
+                            "description": "订单明细名称"
+                          },
+                          "rank": { "type": "string" }
+                        },
+                        "required": ["rank"]
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/inscribe-ranking-search": {
+      "get": {
+        "tags": ["订单"],
+        "summary": "排行榜个人明细",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "properties": {
+                    "address": { "type": "string" },
+                    "amount": { "type": "string" },
+                    "weeklyRank": { "type": "string" },
+                    "allTimeRank": { "type": "string" },
+                    "monthlyRank": { "type": "string" }
+                  },
+                  "description": "返回数据",
+                  "required": [
+                    "address",
+                    "allTimeRank",
+                    "weeklyRank",
+                    "amount",
+                    "monthlyRank"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/file:dataSize": {
+      "post": {
+        "tags": ["订单"],
+        "summary": "查询文件铭文大小",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {},
+                "description": "MultipartFile"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": { "type": "integer", "description": "返回数据" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/order-details": {
+      "get": {
+        "tags": ["订单"],
+        "summary": "分页查询订单明细",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "query",
+            "required": true,
+            "description": "订单明细ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "返回数据",
+                    "required": [
+                      "orderDetailContent",
+                      "orderDetailName",
+                      "orderDetailStatus",
+                      "orderDetailContentType",
+                      "orderDetailInscriptionId",
+                      "orderDetailID",
+                      "orderDetailOrderID",
+                      "orderDetailInscriptionNumber",
+                      "orderDetailTxId",
+                      "orderDetailOrdeNo"
+                    ],
+                    "properties": {
+                      "orderDetailContent": {
+                        "type": "string",
+                        "description": "订单明细内容"
+                      },
+                      "orderDetailName": {
+                        "type": "string",
+                        "description": "订单明细名称"
+                      },
+                      "orderDetailStatus": {
+                        "type": "string",
+                        "description": "订单明细状态"
+                      },
+                      "orderDetailContentType": {
+                        "type": "string",
+                        "description": "订单明细文件类型"
+                      },
+                      "orderDetailInscriptionId": {
+                        "type": "string",
+                        "description": "订单明细铭文id"
+                      },
+                      "orderDetailID": {
+                        "type": "integer",
+                        "description": "订单明细ID"
+                      },
+                      "orderDetailOrderID": {
+                        "type": "string",
+                        "description": "订单明细订单id"
+                      },
+                      "orderDetailInscriptionNumber": {
+                        "type": "string",
+                        "description": "订单明细铭文号"
+                      },
+                      "orderDetailTxId": {
+                        "type": "string",
+                        "description": "订单明细交易id"
+                      },
+                      "orderDetailOrdeNo": {
+                        "type": "string",
+                        "description": "订单明细订单号"
+                      }
+                    }
+                  },
+                  "description": "返回数据"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/discount": {
+      "get": {
+        "tags": ["订单"],
+        "summary": "查询铭刻折扣",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "address",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "data": { "type": "string", "title": "jsonArray" }
+              },
+              "required": ["data"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "txHash": { "type": "string" },
+                      "satPointOnTx": { "type": "string" },
+                      "inscriptionId": { "type": "string" },
+                      "holder": { "type": "string" },
+                      "content": { "type": "string" },
+                      "discount": { "type": "string", "description": "折扣" }
+                    },
+                    "required": [
+                      "txHash",
+                      "holder",
+                      "inscriptionId",
+                      "satPointOnTx",
+                      "content",
+                      "discount"
+                    ]
+                  },
+                  "description": "返回数据"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/sets-price": {
+      "get": {
+        "tags": ["订单"],
+        "summary": "查询sats价格",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "jsonArray": { "type": "string", "title": "jsonArray" }
+              },
+              "required": ["jsonArray"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": { "type": "string", "description": "返回数据" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/orderList": {
+      "get": {
+        "tags": ["订单"],
+        "summary": "查询订单列表",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "orderIds",
+            "in": "query",
+            "required": true,
+            "description": "订单ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "description": "返回数据",
+                    "required": [
+                      "orderBytes",
+                      "orderID",
+                      "orderOrderStatus",
+                      "orderOrdeNo",
+                      "orderFeeRate",
+                      "orderReceiveAddress",
+                      "orderTotalAmount",
+                      "orderServiceFee",
+                      "orderPayAddress",
+                      "orderPaidAmount",
+                      "orderSatsInInscription",
+                      "orderOrderConfirmed"
+                    ],
+                    "properties": {
+                      "orderBytes": {
+                        "type": "string",
+                        "description": "订单字节大小"
+                      },
+                      "orderID": { "type": "integer", "description": "订单ID" },
+                      "orderOrderStatus": {
+                        "type": "number",
+                        "description": "订单订单状态"
+                      },
+                      "orderOrdeNo": {
+                        "type": "string",
+                        "description": "订单订单号"
+                      },
+                      "orderFeeRate": {
+                        "type": "number",
+                        "description": "订单费率"
+                      },
+                      "orderReceiveAddress": {
+                        "type": "string",
+                        "description": "订单收铭文地址"
+                      },
+                      "orderTotalAmount": {
+                        "type": "number",
+                        "description": "订单总费用"
+                      },
+                      "orderServiceFee": {
+                        "type": "string",
+                        "description": "订单服务费"
+                      },
+                      "orderPayAddress": {
+                        "type": "string",
+                        "description": "订单收费地址"
+                      },
+                      "orderPaidAmount": {
+                        "type": "number",
+                        "description": "订单支付数量"
+                      },
+                      "orderSatsInInscription": { "type": "string" },
+                      "orderOrderConfirmed": { "type": "string" }
+                    }
+                  },
+                  "description": "返回数据"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/dataSize": {
+      "post": {
+        "tags": ["订单"],
+        "summary": "查询铭文大小",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "root",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "title": "title",
+              "properties": {
+                "data": { "type": "string", "title": "jsonArray" }
+              },
+              "required": ["data"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": { "type": "integer", "description": "返回数据" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/inscribe/orders": {
+      "get": {
+        "tags": ["订单明细"],
+        "summary": "分页查询订单",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          },
+          {
+            "name": "orderId",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "orderType": {
+                            "type": "string",
+                            "description": "订单订单状态"
+                          },
+                          "orderBytes": {
+                            "type": "string",
+                            "description": "订单字节大小"
+                          },
+                          "orderID": {
+                            "type": "integer",
+                            "description": "订单ID"
+                          },
+                          "orderOrderStatus": {
+                            "type": "string",
+                            "description": "订单订单状态"
+                          },
+                          "orderOrdeNo": {
+                            "type": "string",
+                            "description": "订单订单号"
+                          },
+                          "orderFeeRate": {
+                            "type": "string",
+                            "description": "订单费率"
+                          },
+                          "orderReceiveAddress": {
+                            "type": "string",
+                            "description": "订单收铭文地址"
+                          },
+                          "orderTotalAmount": {
+                            "type": "string",
+                            "description": "订单总费用"
+                          },
+                          "orderServiceFee": {
+                            "type": "string",
+                            "description": "订单服务费"
+                          },
+                          "orderPayAddress": {
+                            "type": "string",
+                            "description": "订单收费地址"
+                          },
+                          "orderPaidAmount": {
+                            "type": "string",
+                            "description": "订单支付数量"
+                          },
+                          "orderPaid": {
+                            "type": "string",
+                            "description": "订单是否付费"
+                          },
+                          "orderName": {
+                            "type": "string",
+                            "description": "订单名称"
+                          }
+                        }
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/sell-order-details": {
+      "get": {
+        "tags": ["售卖"],
+        "summary": "分页查询卖单明细",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "sellOrderId",
+            "in": "query",
+            "required": true,
+            "description": "售卖ID",
+            "type": "string"
+          },
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sellOrderDetailChainTime": {
+                            "type": "string",
+                            "description": "卖单明细上链时间"
+                          },
+                          "sellOrderDetailAddress": {
+                            "type": "string",
+                            "description": "卖单明细地址"
+                          },
+                          "sellOrderDetailTxId": {
+                            "type": "string",
+                            "description": "卖单明细交易ID"
+                          },
+                          "sellOrderDetailName": {
+                            "type": "string",
+                            "description": "卖单明细名称"
+                          },
+                          "sellOrderDetailSellOrderId": {
+                            "type": "string",
+                            "description": "卖单明细卖单ID"
+                          },
+                          "sellOrderDetailStatus": {
+                            "type": "string",
+                            "description": "卖单明细状态"
+                          },
+                          "sellOrderDetailID": {
+                            "type": "integer",
+                            "description": "卖单明细ID"
+                          },
+                          "sellOrderDetailTokenAmount": {
+                            "type": "string",
+                            "description": "卖单明细代币数量"
+                          },
+                          "sellOrderID": {
+                            "type": "integer",
+                            "description": "售卖ID"
+                          },
+                          "sellOrderDetailBtcAmount": {
+                            "type": "string",
+                            "description": "卖单明细btc数量"
+                          }
+                        }
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/sell-orders": {
+      "get": {
+        "tags": ["售卖"],
+        "summary": "分页查询售卖订单",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          },
+          {
+            "name": "sellOrderId",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sellOrderDetailAddress": {
+                            "type": "string",
+                            "description": "售卖卖出数量"
+                          },
+                          "sellOrderDetailTxId": {
+                            "type": "string",
+                            "description": "售卖过期高度"
+                          },
+                          "sellOrderDetailStatus": {
+                            "type": "string",
+                            "description": "售卖Orc20ID"
+                          },
+                          "sellOrderDetailTokenAmount": {
+                            "type": "string",
+                            "description": "售卖代币名称"
+                          },
+                          "sellOrderDetailBtcAmount": {
+                            "type": "number",
+                            "description": "售卖状态"
+                          }
+                        },
+                        "required": []
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/sell-order-detail": {
+      "get": {
+        "tags": ["售卖"],
+        "summary": "单记录查询卖单明细",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "sellOrderId",
+            "in": "query",
+            "required": true,
+            "description": "售卖ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "properties": {
+                    "sellOrderActivationBlock": { "type": "number" },
+                    "sellOrderAmount": { "type": "string" },
+                    "sellOrderAmountLeft": { "type": "string" },
+                    "sellOrderCompleted": { "type": "string" },
+                    "sellOrderExpire": { "type": "string" },
+                    "sellOrderHasWhiteListed": { "type": "string" },
+                    "sellOrderLim": { "type": "string" },
+                    "sellOrderPrice": { "type": "string" },
+                    "sellOrderProgress": { "type": "string" },
+                    "sellOrderSellOrderId": { "type": "string" },
+                    "sellOrderSeller": { "type": "string" },
+                    "sellOrderSoldAmount": { "type": "string" },
+                    "sellOrderStatus": { "type": "number" },
+                    "sellOrderTicker": { "type": "string" },
+                    "sellOrderTokenId": { "type": "string" },
+                    "sellOrderTokenInscriptionId": { "type": "string" }
+                  },
+                  "required": [
+                    "sellOrderActivationBlock",
+                    "sellOrderAmount",
+                    "sellOrderAmountLeft",
+                    "sellOrderCompleted",
+                    "sellOrderExpire",
+                    "sellOrderHasWhiteListed",
+                    "sellOrderLim",
+                    "sellOrderPrice",
+                    "sellOrderProgress",
+                    "sellOrderSellOrderId",
+                    "sellOrderSeller",
+                    "sellOrderStatus",
+                    "sellOrderTicker",
+                    "sellOrderTokenId",
+                    "sellOrderTokenInscriptionId"
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/sell-order": {
+      "get": {
+        "tags": ["售卖"],
+        "summary": "单记录查询售卖",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "sellOrderID",
+            "in": "query",
+            "required": true,
+            "description": "售卖ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "sellOrderSoldAmount",
+                    "sellOrderHeight",
+                    "sellOrderName",
+                    "sellOrderTokenInscriptionId",
+                    "sellOrderBuyer",
+                    "sellOrderInscriptionId",
+                    "sellOrderExpire",
+                    "sellOrderID",
+                    "sellOrderTokenId",
+                    "sellOrderInscriptionNumber",
+                    "sellOrderTicker",
+                    "sellOrderStatus",
+                    "sellOrderSeller",
+                    "sellOrderChainTime",
+                    "sellOrderLim",
+                    "sellOrderAmount",
+                    "sellOrderPrice",
+                    "sellOrderTxId"
+                  ],
+                  "properties": {
+                    "sellOrderSoldAmount": {
+                      "type": "string",
+                      "description": "售卖卖出数量"
+                    },
+                    "sellOrderHeight": {
+                      "type": "string",
+                      "description": "售卖高度"
+                    },
+                    "sellOrderName": {
+                      "type": "string",
+                      "description": "售卖名称"
+                    },
+                    "sellOrderTokenInscriptionId": {
+                      "type": "string",
+                      "description": "售卖tokenInscriptionId"
+                    },
+                    "sellOrderBuyer": {
+                      "type": "string",
+                      "description": "售卖买家地址"
+                    },
+                    "sellOrderInscriptionId": {
+                      "type": "string",
+                      "description": "售卖inscriptionId"
+                    },
+                    "sellOrderExpire": {
+                      "type": "string",
+                      "description": "售卖过期高度"
+                    },
+                    "sellOrderID": {
+                      "type": "integer",
+                      "description": "售卖ID"
+                    },
+                    "sellOrderTokenId": {
+                      "type": "string",
+                      "description": "售卖代币ID"
+                    },
+                    "sellOrderInscriptionNumber": {
+                      "type": "string",
+                      "description": "售卖inscriptionNumber"
+                    },
+                    "sellOrderTicker": {
+                      "type": "string",
+                      "description": "售卖代币名称"
+                    },
+                    "sellOrderStatus": {
+                      "type": "string",
+                      "description": "售卖状态"
+                    },
+                    "sellOrderSeller": {
+                      "type": "string",
+                      "description": "售卖卖家地址"
+                    },
+                    "sellOrderChainTime": {
+                      "type": "string",
+                      "description": "售卖上链时间"
+                    },
+                    "sellOrderLim": {
+                      "type": "string",
+                      "description": "售卖单笔购买最大值"
+                    },
+                    "sellOrderAmount": {
+                      "type": "string",
+                      "description": "售卖总数"
+                    },
+                    "sellOrderPrice": {
+                      "type": "string",
+                      "description": "售卖单价"
+                    },
+                    "sellOrderTxId": {
+                      "type": "string",
+                      "description": "售卖txID"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/sell-order-white-lists": {
+      "get": {
+        "tags": ["白名单"],
+        "summary": "分页查询白名单",
+        "description": "",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": false,
+            "description": "页码\n从 1 开始\n不传默认为第一页",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "description": "每页个数\n不传默认为 20\n最大为 1000",
+            "type": "string"
+          },
+          {
+            "name": "sellOrderId",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "sellOrderWhiteListAddress": {
+                            "type": "string",
+                            "description": "白名单地址"
+                          },
+                          "sellOrderWhiteListPercentage": {
+                            "type": "string",
+                            "description": "白名单百分比"
+                          },
+                          "sellOrderWhiteListLim": {
+                            "type": "string",
+                            "description": "白名单限额"
+                          },
+                          "sellOrderWhiteListAmountFilled": {
+                            "type": "string",
+                            "description": "白名单已购买数量"
+                          },
+                          "sellOrderWhiteListAmountLeft": {
+                            "type": "string",
+                            "description": "白名单剩余可购买数量"
+                          }
+                        },
+                        "required": []
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/sell-order-white-list": {
+      "get": {
+        "tags": ["白名单"],
+        "summary": "单记录查询白名单",
+        "consumes": ["application/json"],
+        "parameters": [
+          {
+            "name": "sellOrderWhiteListID",
+            "in": "query",
+            "required": true,
+            "description": "白名单ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "sellOrderWhiteListAddress",
+                    "sellOrderWhiteListID",
+                    "sellOrderWhiteListName",
+                    "sellOrderWhiteListLim",
+                    "sellOrderWhiteListAmountaFilled",
+                    "sellOrderWhiteListSellOrderId"
+                  ],
+                  "properties": {
+                    "sellOrderWhiteListAddress": {
+                      "type": "string",
+                      "description": "白名单地址"
+                    },
+                    "sellOrderWhiteListID": {
+                      "type": "integer",
+                      "description": "白名单ID"
+                    },
+                    "sellOrderWhiteListName": {
+                      "type": "string",
+                      "description": "白名单名称"
+                    },
+                    "sellOrderWhiteListLim": {
+                      "type": "string",
+                      "description": "白名单限额"
+                    },
+                    "sellOrderWhiteListAmountaFilled": {
+                      "type": "string",
+                      "description": "白名单百分比"
+                    },
+                    "sellOrderWhiteListSellOrderId": {
+                      "type": "string",
+                      "description": "白名单卖单ID"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/proposes": {
+      "get": {
+        "tags": ["投票"],
+        "summary": "分页查询投票",
+        "description": "",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "ticker",
+            "in": "query",
+            "required": false,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": true,
+            "description": "提议状态1:进行中，2:结束，3:过期",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "quorum": {
+                            "type": "string",
+                            "description": "投票最低数量"
+                          },
+                          "status": {
+                            "type": "string",
+                            "description": "提议状态"
+                          },
+                          "ticker": {
+                            "type": "string",
+                            "description": "代币名称"
+                          },
+                          "content": {
+                            "type": "string",
+                            "description": "提议内容"
+                          },
+                          "voteYes": {
+                            "type": "string",
+                            "description": "提议赞成数量"
+                          },
+                          "pass": {
+                            "type": "string",
+                            "description": "提议通过最低数量"
+                          },
+                          "voteNo": {
+                            "type": "string",
+                            "description": "提议反对数量"
+                          },
+                          "proposal": {
+                            "type": "string",
+                            "description": "提议版本"
+                          },
+                          "progress": {
+                            "type": "string",
+                            "description": "提议投票进度"
+                          },
+                          "tokenId": {
+                            "type": "string",
+                            "description": "提议代币ID"
+                          },
+                          "chainTime": {
+                            "type": "string",
+                            "description": "提议上链时间"
+                          },
+                          "tokenInscriptionId": {
+                            "type": "string",
+                            "description": "提议代币铭文Id"
+                          },
+                          "inscriptionId": {
+                            "type": "string",
+                            "description": "提议铭文Id"
+                          },
+                          "voteYesAmount": {
+                            "type": "string",
+                            "description": "提议赞成代币数量"
+                          },
+                          "voteNoAmount": {
+                            "type": "string",
+                            "description": "提议反对代币数量"
+                          },
+                          "voteAmount": {
+                            "type": "string",
+                            "description": "提议投票总量"
+                          },
+                          "voteQuorumAmount": {
+                            "type": "string",
+                            "description": "提议结束所需最小投票代币数量"
+                          }
+                        },
+                        "required": []
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/votes": {
+      "get": {
+        "tags": ["投票"],
+        "summary": "分页查询投票者",
+        "description": "",
+        "parameters": [
+          {
+            "name": "pageNo",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          },
+          {
+            "name": "proposeInscriptionId",
+            "in": "query",
+            "required": true,
+            "description": "",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "hasPrev",
+                    "pageNo",
+                    "totalPage",
+                    "pageSize",
+                    "hasNext",
+                    "totalCount",
+                    "items"
+                  ],
+                  "properties": {
+                    "hasPrev": {
+                      "type": "boolean",
+                      "description": "是否还有前一页",
+                      "mock": { "mock": "true" }
+                    },
+                    "pageNo": {
+                      "type": "integer",
+                      "description": "当前页码",
+                      "mock": { "mock": "1" }
+                    },
+                    "totalPage": {
+                      "type": "integer",
+                      "description": "总页数",
+                      "mock": { "mock": "5" }
+                    },
+                    "pageSize": {
+                      "type": "integer",
+                      "description": "每页个数",
+                      "mock": { "mock": "20" }
+                    },
+                    "hasNext": {
+                      "type": "boolean",
+                      "description": "是否还有后一页",
+                      "mock": { "mock": "false" }
+                    },
+                    "totalCount": {
+                      "type": "integer",
+                      "description": "总数",
+                      "mock": { "mock": "100" }
+                    },
+                    "items": {
+                      "type": "array",
+                      "description": "数据域",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "voteAmount": {
+                            "type": "string",
+                            "description": "投票投票代币数量"
+                          },
+                          "voteProposeVersion": {
+                            "type": "string",
+                            "description": "投票提议版本"
+                          },
+                          "voteTicker": {
+                            "type": "string",
+                            "description": "投票代币名称"
+                          },
+                          "voteVote": {
+                            "type": "string",
+                            "description": "投票投票内容"
+                          },
+                          "voteProposeId": {
+                            "type": "string",
+                            "description": "投票提议Id"
+                          },
+                          "voteMsg": {
+                            "type": "string",
+                            "description": "投票投票信息"
+                          },
+                          "voteInscriptionId": {
+                            "type": "string",
+                            "description": "投票铭文Id"
+                          },
+                          "voteChainTime": { "type": "string" },
+                          "voteAddress": { "type": "string" }
+                        }
+                      },
+                      "uniqueItems": true,
+                      "minItems": 1,
+                      "maxItems": 3
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/orc20/propose": {
+      "get": {
+        "tags": ["投票"],
+        "summary": "单记录查询",
+        "description": "",
+        "parameters": [
+          {
+            "name": "proposeInscriptionId",
+            "in": "query",
+            "required": true,
+            "description": "提议 ID",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "object",
+              "description": "消息返回结构体",
+              "required": ["msg", "code", "data"],
+              "properties": {
+                "msg": {
+                  "type": "string",
+                  "description": "返回消息\n异常时返回错误信息",
+                  "mock": { "mock": "请求成功" }
+                },
+                "code": {
+                  "type": "string",
+                  "description": "返回码\n成功时返回 000 异常时返回码如 105.abm.UNKNOWN",
+                  "mock": { "mock": "000" }
+                },
+                "data": {
+                  "type": "object",
+                  "description": "返回数据",
+                  "required": [
+                    "proposeQuorum",
+                    "proposeStatus",
+                    "proposeTicker",
+                    "proposeMsg",
+                    "proposeRate",
+                    "proposeVoteYes",
+                    "proposeActiveAddress",
+                    "proposeExpire",
+                    "proposeIsActived",
+                    "proposePass",
+                    "proposeVoteNo",
+                    "proposeProposeVersion",
+                    "proposeInscriptionId",
+                    "proposeChainTime",
+                    "proposeResult",
+                    "proposeTokenId",
+                    "proposeVoteAmount",
+                    "proposeVoteQuorumAmount"
+                  ],
+                  "properties": {
+                    "proposeQuorum": {
+                      "type": "string",
+                      "description": "提议投票代币比例"
+                    },
+                    "proposeStatus": {
+                      "type": "string",
+                      "description": "提议提议状态"
+                    },
+                    "proposeTicker": {
+                      "type": "string",
+                      "description": "提议代币名称"
+                    },
+                    "proposeMsg": {
+                      "type": "string",
+                      "description": "提议提议内容"
+                    },
+                    "proposeRate": {
+                      "type": "string",
+                      "description": "提议当前提议通过比例"
+                    },
+                    "proposeVoteYes": {
+                      "type": "string",
+                      "description": "提议赞成数量"
+                    },
+                    "proposeActiveAddress": {
+                      "type": "string",
+                      "description": "提议激活地址"
+                    },
+                    "proposeExpire": {
+                      "type": "string",
+                      "description": "提议过期高度"
+                    },
+                    "proposeIsActived": {
+                      "type": "string",
+                      "description": "提议是否激活"
+                    },
+                    "proposePass": {
+                      "type": "string",
+                      "description": "提议提议通过百分比"
+                    },
+                    "proposeVoteNo": {
+                      "type": "string",
+                      "description": "提议反对数量"
+                    },
+                    "proposeProposeVersion": {
+                      "type": "string",
+                      "description": "提议提议版本"
+                    },
+                    "proposeInscriptionId": {
+                      "type": "string",
+                      "description": "提议铭文ID"
+                    },
+                    "proposeChainTime": {
+                      "type": "string",
+                      "description": "提议上链时间"
+                    },
+                    "proposeResult": {
+                      "type": "string",
+                      "description": "提议结果"
+                    },
+                    "proposeTokenId": {
+                      "type": "string",
+                      "description": "提议代币Id"
+                    },
+                    "proposeVoteAmount": {
+                      "type": "string",
+                      "description": "提议投票总数"
+                    },
+                    "proposeVoteQuorumAmount": {
+                      "type": "string",
+                      "description": "提议结束所需最低投票代币数量"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

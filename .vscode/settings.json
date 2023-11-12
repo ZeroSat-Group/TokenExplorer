@@ -1,0 +1,5 @@
+{
+  "i18n-ally.localesPaths": ["./locales"],
+  "i18n-ally.enabledParsers": ["json"],
+  "cSpell.words": ["feerate", "infosat", "yapi"]
+}

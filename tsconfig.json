@@ -1,0 +1,12 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "types": ["@pinia/nuxt", "@nuxt/i18n", "@nuxt/types", "naive-ui/volar"]
+  },
+  "ts-node": {
+    "compilerOptions": {
+      "target": "ES2021",
+      "module": "CommonJS"
+    }
+  }
+}
